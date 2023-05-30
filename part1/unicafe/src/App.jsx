@@ -1,8 +1,23 @@
-import './stylesheets/App.css'
+import { useState } from 'react'
 
-function App() {
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(6)
+  const [neutral, setNeutral] = useState(2)
+  const [bad, setBad] = useState(1)
+
   return (
-    <div className="App">Hewwo World</div>
+    <div>
+      <h1>Give Feedback</h1>
+      <input type='button' value={'Good'} />
+      <input type='button' value={'Neutral'} />
+      <input type='button' value={'Bad'} />
+
+      <h1>Statistics</h1>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+    </div>
   )
 }
 
