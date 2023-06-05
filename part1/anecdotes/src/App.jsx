@@ -16,10 +16,7 @@ const App = () => {
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
 
   const handleVoteClick = () => {
-    var copy = [...points]
-    copy[selected] += 1
-
-    setPoints(copy)
+    setPoints(anecdotes.with(selected, points[selected] += 1))
   }
 
   return (
