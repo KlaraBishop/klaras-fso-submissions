@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import Contacts from './components/contacts';
 import NewContactForm from './components/new-contact-form';
 import SearchBox from './components/search-box'; 
-import axios from 'axios';
+import database from './services/database';
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filterValue, setFilterValue] = useState('')
   
   useEffect (() => {
-    axios.get('http://localhost:8009/persons')
+    database.getAll()
     .then(res => setPersons(res.data))
   },[])
 
@@ -20,6 +20,9 @@ const App = () => {
       window.alert(`${newPerson.name} is already in the phonebook`)
       return
     }
+
+    database.create(newPerson)
+    .then(res => {console.log(res)})
 
     setPersons([...persons, newPerson])
   }
