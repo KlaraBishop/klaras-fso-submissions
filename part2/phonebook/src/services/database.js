@@ -1,16 +1,19 @@
 import axios from 'axios'
 const url = 'http://localhost:8009/persons'
 
-const getAll = () => {
-    return axios.get(url)
+const getAll = async () => {
+    const request = await axios.get(url)
+    return request.data
 }
 
-const addNewPerson = (newPerson) => {
-    return axios.post(url, newPerson)
+const create = async (newPerson) => {
+    const request = await axios.post(url, newPerson)
+    return request.data
 }
 
-
-export default {
-    getAll: getAll,
-    create: addNewPerson
+const deletePerson = async (id) => {
+    const request = await axios.delete(`${url}/${id}`)
+    return request.data
 }
+
+export default { getAll, create, deletePerson }

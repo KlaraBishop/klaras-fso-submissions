@@ -9,8 +9,7 @@ const App = () => {
   const [filterValue, setFilterValue] = useState('')
   
   useEffect (() => {
-    database.getAll()
-    .then(res => setPersons(res.data))
+    database.getAll().then(initPersons => setPersons(initPersons))
   },[])
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filterValue.toLowerCase()))
@@ -31,12 +30,20 @@ const App = () => {
     setFilterValue(value)
   }
 
+  const handleDelete = (id) => {
+    if (window.confirm(`Delete ${persons[id - 1].name}?`)) {
+      database.deletePerson(id)
+  
+      setPersons(persons.toSpliced(id - 1, 1))
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <NewContactForm addPerson={addPerson} />
       <SearchBox changeFilter={changeFilter} />
-      <Contacts filteredPersons={filteredPersons} />
+      <Contacts filteredPersons={filteredPersons} handleDelete={handleDelete}/>
     </div>
   )
 }
