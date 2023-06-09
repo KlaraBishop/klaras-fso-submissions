@@ -9,9 +9,14 @@ const ResponseMessage = ({ message, type }) => {
         fontSize: '32px'
     }
 
-    const dsafklsdf = (type === 'success')
-    ? responseStyle.color = 'green'
-    : responseStyle.color = 'red'
+    if (type === 'success') {
+        responseStyle.color = 'green'
+        responseStyle.borderColor = 'green'
+    }
+    else {
+        responseStyle.color = 'red'
+        responseStyle.borderColor = 'red'
+    }
 
     if (message === '') {
         return <div></div>
