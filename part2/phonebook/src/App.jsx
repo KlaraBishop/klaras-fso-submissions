@@ -7,23 +7,32 @@ import database from './services/database';
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filterValue, setFilterValue] = useState('')
+
+  const getData = () => {
+    database.getAll().then(initPersons => setPersons(initPersons))
+  }
   
   useEffect (() => {
-    database.getAll().then(initPersons => setPersons(initPersons))
+    getData()
   },[])
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filterValue.toLowerCase()))
 
   const addPerson = (newPerson) => {
-    if (persons.some((person) => person.name === newPerson.name)){
-      window.alert(`${newPerson.name} is already in the phonebook`)
+    
+    const updateId = 1 + persons.findIndex(person => person.name === newPerson.name)
+    console.log(updateId)
+
+    if (updateId > 0) {
+      if (window.confirm(`${newPerson.name} is already in contacts, replace number?`)) {
+        database.updatePerson(updateId, newPerson)
+        getData()
+      }
       return
     }
 
     database.create(newPerson)
-    .then(res => {console.log(res)})
-
-    setPersons([...persons, newPerson])
+    getData()
   }
 
   const changeFilter = (value) => {
@@ -33,8 +42,7 @@ const App = () => {
   const handleDelete = (id) => {
     if (window.confirm(`Delete ${persons[id - 1].name}?`)) {
       database.deletePerson(id)
-  
-      setPersons(persons.toSpliced(id - 1, 1))
+      getData()
     }
   }
 
