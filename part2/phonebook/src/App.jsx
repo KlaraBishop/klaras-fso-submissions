@@ -34,14 +34,14 @@ const App = () => {
     if (updateId > 0) {
       if (window.confirm(`${newPerson.name} is already in contacts, replace number?`)) {
         database.updatePerson(updateId, newPerson)
-        getData()
+        .then(() => getData())
         setMessage({text: `${newPerson.name} has been updated`, type: 'success'})
       }
       return
     }
 
     database.create(newPerson)
-    getData()
+    .then(() => getData())
     setMessage({text: `Added ${newPerson.name}`, type: 'success'})
   }
 
@@ -51,8 +51,10 @@ const App = () => {
 
   const handleDelete = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
-      database.deletePerson(id).then(() => getData())
-      setMessage({text: `${name} has been deleted`, type: 'success'})
+      database.deletePerson(id)
+      .then(() => setMessage({text: `${name} has been deleted`, type: 'success'}))
+      .catch(error => setMessage({ text: `${name} has already been deleted`, type: 'fail'}))
+      .then(() => getData())
     }
   }
 
