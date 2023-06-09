@@ -1,7 +1,7 @@
 const Contacts = ({ filteredPersons, handleDelete }) => {
-    
-    const handleClick = (event) => {
-        handleDelete(event.target.id)
+
+    const handleClick = (event, name) => {
+        handleDelete(event.target.id, name)
     }
 
     return <div>
@@ -19,7 +19,7 @@ const Contacts = ({ filteredPersons, handleDelete }) => {
             <tr key={person.id}>
                 <td>{person.name} </td>
                 <td>{person.number}</td>
-                <td><input id={person.id} type="button" value='delete' onClick={e => handleClick(e)}/></td>
+                <td><input id={person.id} type="button" value='delete' onClick={e => handleClick(e, person.name)}/></td>
             </tr>
             )}
         </tbody>
